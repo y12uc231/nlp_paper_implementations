@@ -1,16 +1,5 @@
 import torch
 import torch.nn as nn
-<<<<<<< HEAD
-import torch.optim as optim
-
-class CBOW(nn.Module):
-    def __init__(self):
-        super(CBOW, self).__init__()
-        self.test = 1
-
-    def forward(self, x):
-        return x
-=======
 import torch.nn.functional as F
 
 
@@ -25,6 +14,5 @@ class CBOW(nn.Module):
         x = F.softmax(self.fc(x))
 
 
->>>>>>> Added strcture files for cbow
 
 
