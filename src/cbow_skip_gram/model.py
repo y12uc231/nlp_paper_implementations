@@ -10,8 +10,9 @@ class CBOW(nn.Module):
         self.fc = nn.Linear(embedding_dims, vocab_size)
 
     def forward(self, x):
-        x = F.tanh(self.embeddings(x).mean(0))
+        x = F.tanh(self.embeddings(x).sum(1))
         x = F.softmax(self.fc(x))
+        return x
 
 
 
