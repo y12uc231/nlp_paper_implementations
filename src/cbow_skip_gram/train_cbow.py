@@ -23,6 +23,8 @@ def setup_arg_parser():
                             help='batch size for training')
     arg_parser.add_argument('--lr', dest="lr", type = float,
                             help='Learning rate for training')
+    arg_parser.add_argument('--context-len', dest="context_length", type = int,
+                            help='Context Length')
     arg_parser.add_argument('--epochs', dest="num_epochs", type = int,
                             help='Number of epochs')
 
@@ -39,7 +41,7 @@ def train(args):
         device = torch.device("cpu")
     # Create data for train, valid, test
     log.info("Preparing data for training.....")
-    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location)
+    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location, args.batch_size, args.context_len)
     log.info("Data preparation completed. ")
 
     model = CBOW(vocab.vocab_size, args.embedding_dims)
@@ -59,7 +61,7 @@ def train(args):
         for batch in tqdm(train_iter):
             output_logits = model(batch[:, :-1].type(torch.long))
             loss = loss_function(output_logits, batch[:, -1].type(torch.long) )
-            total_loss += loss.data
+            total_loss += loss.data.mean()
             loss.backward()
             optimizer.step()
         log.info("Loss : {}".format(total_loss))
