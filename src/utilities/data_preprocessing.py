@@ -47,7 +47,7 @@ def data_split(input_lines, train_p, valid_p):
     return train_text, valid_text, test_text
 
 
-def create_data_loader(input, context_length, vocab, device, batch_size = 32, shuffle = False):
+def create_data_loader(input, context_length, vocab, batch_size = 32, shuffle = False):
     samples = input.split()
     i = 0
     context = []
@@ -57,18 +57,18 @@ def create_data_loader(input, context_length, vocab, device, batch_size = 32, sh
         i += context_length
         for num_token, _ in enumerate(sample):
             context.append([sample[j] for j, _ in enumerate(sample) if j != num_token] + [sample[num_token]])
-    return torch.utils.data.DataLoader(torch.Tensor(context, device=device).type(torch.long) , batch_size=batch_size, shuffle=shuffle)
+    return torch.utils.data.DataLoader(torch.Tensor(context).type(torch.long) , batch_size=batch_size, shuffle=shuffle)
 
 
-def data_prep_from_file(file_path, device , context_length = 4, train_p = 0.6, valid_p = 0.2):
+def data_prep_from_file(file_path, context_length = 4, train_p = 0.6, valid_p = 0.2):
     with open(file_path) as f1:
         text_lines = f1.readlines()
 
     train_text, valid_text, test_text = data_split(text_lines, train_p, valid_p)
     train_vocab = create_vocab(train_text)
-    train_dl = create_data_loader(train_text, context_length, train_vocab , device)
-    valid_dl = create_data_loader(valid_text, context_length, train_vocab,  device)
-    test_dl = create_data_loader(test_text, context_length, train_vocab, device)
+    train_dl = create_data_loader(train_text, context_length, train_vocab )
+    valid_dl = create_data_loader(valid_text, context_length, train_vocab)
+    test_dl = create_data_loader(test_text, context_length, train_vocab)
     return train_dl, valid_dl, test_dl, train_vocab
 
 

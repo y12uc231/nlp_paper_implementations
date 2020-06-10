@@ -39,18 +39,22 @@ def train(args):
         device = torch.device("cpu")
     # Create data for train, valid, test
     log.info("Preparing data for training.....")
-    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location, device)
+    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location)
     log.info("Data preparation completed. ")
 
     model = CBOW(vocab.vocab_size, args.embedding_dims)
+    if torch.cuda.device_count() > 1:
+        model = nn.DataParallel(model)
+    model.to(device)
     loss_function = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=args.lr)
     train_iter = iter(train_dl)
     valid_iter = iter(valid_dl)
 
 
-    for _ in tqdm(range(args.num_epochs)):
+    for epoch in tqdm(range(args.num_epochs)):
         total_loss = 0
+        log.info("Processing epoch {}...".format(epoch))
         for batch in tqdm(train_iter):
             output_logits = model(batch[:, :-1].type(torch.long))
             loss = loss_function(output_logits, batch[:, -1].type(torch.long) )
