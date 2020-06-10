@@ -54,6 +54,7 @@ def train(args):
 
     for epoch in tqdm(range(args.num_epochs)):
         total_loss = 0
+        train_iter = iter(train_dl)
         log.info("Processing epoch {}...".format(epoch))
         for batch in tqdm(train_iter):
             output_logits = model(batch[:, :-1].type(torch.long))
