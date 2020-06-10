@@ -58,7 +58,7 @@ def train(args):
         for batch in tqdm(train_iter):
             output_logits = model(batch[:, :-1].type(torch.long))
             loss = loss_function(output_logits, batch[:, -1].type(torch.long) )
-            total_loss += loss
+            total_loss += loss.data
             loss.backward()
             optimizer.step()
         log.info("Loss : {}".format(total_loss))
