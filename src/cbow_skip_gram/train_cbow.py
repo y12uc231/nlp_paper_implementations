@@ -41,7 +41,7 @@ def train(args):
         device = torch.device("cpu")
     # Create data for train, valid, test
     log.info("Preparing data for training.....")
-    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location, args.batch_size, args.context_len)
+    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location, args.batch_size, args.context_length)
     log.info("Data preparation completed. ")
 
     model = CBOW(vocab.vocab_size, args.embedding_dims)
