@@ -33,19 +33,23 @@ def setup_arg_parser():
 def train(args):
     arg_parser = setup_arg_parser()
     args = arg_parser.parse_args(args)
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
     # Create data for train, valid, test
     log.info("Preparing data for training.....")
-    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location)
+    train_dl, valid_dl, test_dl, vocab = data_prep_from_file(args.data_file_location, device)
     log.info("Data preparation completed. ")
 
-    model = CBOW(len(vocab.stoi), args.embedding_dims)
+    model = CBOW(vocab.vocab_size, args.embedding_dims)
     loss_function = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=args.lr)
     train_iter = iter(train_dl)
     valid_iter = iter(valid_dl)
 
-    log.info("Training..... {}".format(len(vocab.stoi)))
-    for i in tqdm(range(args.num_epochs)):
+
+    for _ in tqdm(range(args.num_epochs)):
         total_loss = 0
         for batch in tqdm(train_iter):
             output_logits = model(batch[:, :-1].type(torch.long))
