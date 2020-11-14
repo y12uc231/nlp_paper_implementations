@@ -13,7 +13,7 @@
 10. (**TODO**)[BERT](https://arxiv.org/abs/1810.04805)
 	 
 # Upcoming Papers 
-1. (**ETA 06/13**) [Towards Debiasing Sentence Representations](http://www.cs.cmu.edu/~pliang/papers/acl2020_debiasing.pdf)
+1. (**ETA 12/13**) [Towards Debiasing Sentence Representations](http://www.cs.cmu.edu/~pliang/papers/acl2020_debiasing.pdf)
 
 #### Resources 
 1. http://masatohagiwara.net/100-nlp-papers/ : 100 must read papers on NLP
