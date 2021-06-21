@@ -1,6 +1,6 @@
 # Implementations of Popular NLP Deep Learning Algorithms
 1. (**In Progress**)CBOW and Skip-gram
-	* [Explaination Paper](https://arxiv.org/pdf/1411.2738.pdf )
+	* [Theory](https://arxiv.org/pdf/1411.2738.pdf )
 	* [Orignal Paper](https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf)
 2. (**TODO**)[Convolutional Neural Network for Sentence Classification](https://arxiv.org/pdf/1408.5882.pdf)
 3. (**TODO**)[Character-lever Convolutional Neural Netword for Sentence Classfication](https://arxiv.org/pdf/1509.01626.pdf)
